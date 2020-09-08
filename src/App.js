@@ -11,18 +11,28 @@ import React, { Component } from 'react';
      ],
      showPersons: false
    }
+   
+   nameChangedHandler = (event,index) => {
 
-   switchNameHandler = () => {
-     this.setState({
-       persons: [...this.state.persons.reverse()]
-     })
+    let newName = event.target.value
+
+    let person = {...this.state.persons[index]}
+    person.name = newName
+
+    let persons = [...this.state.persons]
+    persons[index] = person
+
+    this.setState({
+      persons: persons
+    })
+
    }
 
-   changeNameFirstRowHandler = (event) => {
-    let rows = [...this.state.persons]
-    rows[0].name = event.target.value
+   deletePersonsHandler = (personIndex) => {
+    const persons = [...this.state.persons]
+    persons.splice(personIndex,1)
     this.setState({
-      persons: [...rows]
+      persons: persons
     })
    }
 
@@ -44,14 +54,14 @@ import React, { Component } from 'react';
      if(this.state.showPersons){
        persons = (
          <div>
-          <Person 
-            name={this.state.persons[0].name} 
-            age={this.state.persons[0].age}
-            click={this.switchNameHandler}
-            changed={this.changeNameFirstRowHandler}>My Hobbies: Jogging</Person>
-          <Person 
-            name={this.state.persons[1].name} 
-            age={this.state.persons[1].age}/>
+           {this.state.persons.map((person,index) => {
+             return <Person 
+              key={index}
+              name={person.name} 
+              age={person.age}
+              changed={(event) => this.nameChangedHandler(event,index)}
+              click={() => this.deletePersonsHandler(index)}/>
+           })}
         </div>
        )
      }
