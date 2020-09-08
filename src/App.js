@@ -40,6 +40,21 @@ import React, { Component } from 'react';
        padding: '8px',
        cursor: 'pointer'
      }
+     let persons = null;
+     if(this.state.showPersons){
+       persons = (
+         <div>
+          <Person 
+            name={this.state.persons[0].name} 
+            age={this.state.persons[0].age}
+            click={this.switchNameHandler}
+            changed={this.changeNameFirstRowHandler}>My Hobbies: Jogging</Person>
+          <Person 
+            name={this.state.persons[1].name} 
+            age={this.state.persons[1].age}/>
+        </div>
+       )
+     }
      return (
        <div className="App">
         <h1>Hi this is react demo</h1>
@@ -47,18 +62,7 @@ import React, { Component } from 'react';
           onClick={this.togglerPersonsHandler}
           style={buttonStyle}>Toggle Persons
         </button>
-        {this.state.showPersons ? 
-          <div>
-            <Person 
-              name={this.state.persons[0].name} 
-              age={this.state.persons[0].age}
-              click={this.switchNameHandler}
-              changed={this.changeNameFirstRowHandler}>My Hobbies: Jogging</Person>
-            <Person 
-              name={this.state.persons[1].name} 
-              age={this.state.persons[1].age}/>
-          </div>
-       : null}
+        {persons}
       </div>
      );
      //return React.createElement('div',{className: 'App'},React.createElement('h1',null,'This is react App!!'));
