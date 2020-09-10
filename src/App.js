@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
- import './App.css';
- import Person from './Person/Person';
+import './App.css';
+import Person from './Person/Person';
+import Radium, {StyleRoot} from 'radium'
 
  class App extends Component {
 
@@ -43,15 +44,27 @@ import React, { Component } from 'react';
    }
 
    render() {
+
      const buttonStyle = {
-       backgroundColor: 'white',
+       backgroundColor: 'green',
+       color: 'white',
        font: 'inherit',
        border: '1px solid blue',
        padding: '8px',
-       cursor: 'pointer'
+       cursor: 'pointer',
+       ':hover': {
+         backgroundColor: 'lightgreen',
+         color: 'black',
+       }
      }
+
      let persons = null;
      if(this.state.showPersons){
+       buttonStyle.backgroundColor = 'red';
+       buttonStyle[':hover'] = {
+         backgroundColor: 'salmon',
+         color: 'black'
+       }
        persons = (
          <div>
            {this.state.persons.map((person,index) => {
@@ -65,18 +78,31 @@ import React, { Component } from 'react';
         </div>
        )
      }
+
+     let classes = [];
+
+     if(this.state.persons.length <= 2){
+       classes.push('red');
+     }
+     if(this.state.persons.length <= 1){
+      classes.push('bold');
+     }
+
      return (
-       <div className="App">
-        <h1>Hi this is react demo</h1>
-        <button 
-          onClick={this.togglerPersonsHandler}
-          style={buttonStyle}>Toggle Persons
-        </button>
-        {persons}
-      </div>
+       <StyleRoot>
+        <div className="App">
+          <p className={classes.join(' ')}>Hi this is react demo</p>
+          <button 
+            onClick={this.togglerPersonsHandler}
+            style={buttonStyle}>Toggle Persons
+          </button>
+          {persons}
+        </div>
+       </StyleRoot>
      );
+
      //return React.createElement('div',{className: 'App'},React.createElement('h1',null,'This is react App!!'));
    }
  }
 
- export default App;
+ export default Radium(App);
